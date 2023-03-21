@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  echo:
+    build: src/.
+    ports:
+      - "9090:9090"
+  client:
+    build: demo/.
+    ports:
+      - "8182:8182"
+  envoy:
+    build: config/.
+    ports:
+      - "9901:9901"
+      - "8080:8080"
