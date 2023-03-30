@@ -1,9 +1,9 @@
 version: "3.9"
 services:
-  # echo:
-  #   build: src/.
-  #   ports:
-  #     - "9090:9090"
+  micro1:
+    build: src/.
+    ports:
+      - "9090:9090"
   # client:
   #   build: demo/.
   #   ports:
@@ -27,8 +27,8 @@ services:
       - "6379:6379"
     volumes:
       - ./redis-data:/data
-  # envoy:
-  #   build: config/.
-  #   ports:
-  #     - "9901:9901"
-  #     - "8080:8080"
+  envoy:
+    build: config/.
+    ports:
+      - "9901:9901"
+      - "8080:8080"

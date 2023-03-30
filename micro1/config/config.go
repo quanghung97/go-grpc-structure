@@ -4,7 +4,7 @@ import "github.com/jinzhu/configor"
 
 type Config struct {
 	AppName string `default:"grcp"`
-	Port    int32  `default:"8000"`
+	Port    int32  `default:"9090"`
 	DB      struct {
 		Use      string `default:"postgres"`
 		Postgres []struct {
