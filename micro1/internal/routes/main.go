@@ -20,6 +20,7 @@ type Route struct {
 }
 
 func (r *Route) NewRoute() *grpc.Server {
+
 	grpcServer := grpc.NewServer(grpc.UnaryInterceptor(middlewares.AuthInterceptor))
 
 	pb.RegisterSocietyServiceServer(grpcServer, r)

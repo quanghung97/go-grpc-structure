@@ -2,7 +2,6 @@ package middlewares
 
 import (
 	"context"
-	"fmt"
 	"strings"
 
 	"github.com/bav-demo/micro1/internal/models/authenticate"
@@ -18,7 +17,6 @@ func AuthInterceptor(ctx context.Context, req interface{}, info *grpc.UnaryServe
 	// fmt.Println(ok)
 	// fmt.Println(ctx)
 
-	fmt.Println('1', info.FullMethod)
 	if strings.Contains(info.FullMethod, "AuthenticationService") {
 		return handler(ctx, req)
 	} else {
