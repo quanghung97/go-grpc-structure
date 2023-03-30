@@ -1,15 +1,34 @@
 version: "3.9"
 services:
-  echo:
-    build: src/.
+  # echo:
+  #   build: src/.
+  #   ports:
+  #     - "9090:9090"
+  # client:
+  #   build: demo/.
+  #   ports:
+  #     - "8182:8182"
+  db:
+    image: postgres:latest
+    container_name: db-tenant
+    # restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: demo-bamboo
+    volumes:
+      - ./db-data:/var/lib/postgresql/data
     ports:
-      - "9090:9090"
-  client:
-    build: demo/.
+      - "5432:5432"
+  redis:
+    image: redis
+    container_name: redis-tenant
     ports:
-      - "8182:8182"
-  envoy:
-    build: config/.
-    ports:
-      - "9901:9901"
-      - "8080:8080"
+      - "6379:6379"
+    volumes:
+      - ./redis-data:/data
+  # envoy:
+  #   build: config/.
+  #   ports:
+  #     - "9901:9901"
+  #     - "8080:8080"

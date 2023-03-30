@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package society;
+
+option go_package = "./go_pb";
+
+message RequestPosts{}
+
+message Comment {
+    string commentId = 1;
+    string content = 2;
+    string postId = 3;
+}
+
+message Post {
+    string postId = 1;
+    string title = 2;
+}
+
+message ResponsePosts {
+    repeated Post posts = 1;
+}
+
+message RequestPost {
+    string postId = 1;
+}
+
+
+message ResponsePost {
+    Post post = 1;
+}
+
+message ResponseComments {
+    repeated Comment comments = 1;
+}
+
+message RequestUpdateComment {
+    string commentId = 1;
+    string content = 2;
+}
+
+message ResponseUpdate {
+    uint32 status = 1;
+}
+
+message RequestAddComment {
+    string postId = 1;
+    string content = 2;
+}
+
+message RequestAddPost {
+    string title = 2;
+}
+
+
+service SocietyService {
+    rpc GetAllPostRPC(RequestPosts) returns (ResponsePosts) {}
+    rpc GetPostById(RequestPost) returns (ResponsePost) {}
+    rpc GetAllCommentsFromPost(RequestPost) returns (ResponseComments) {}
+    rpc UpdateComment(RequestUpdateComment) returns (ResponseUpdate) {}
+    rpc AddComment(RequestAddComment) returns (ResponseUpdate) {}
+    rpc AddPost(RequestAddPost) returns (ResponseUpdate) {}
+}

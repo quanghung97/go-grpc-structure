@@ -1,0 +1,17 @@
+appname: sample
+port: 8000
+
+db:
+    use: postgres
+    postgres:
+        -   enabled: true
+            host: "0.0.0.0"
+            port: 5432
+            username: "postgres"
+            password: "123"
+            database: "demo-bamboo"
+            nameconn: connPostgres
+
+contacts:
+    name: 'Javier Lecca'
+    email: leccajavier@gmail.com
