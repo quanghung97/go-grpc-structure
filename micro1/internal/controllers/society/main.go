@@ -7,75 +7,48 @@ import (
 	entity "github.com/bav-demo/micro1/internal/models/society"
 	initConnect "github.com/bav-demo/micro1/server/init"
 
-	"errors"
-
 	util "github.com/bav-demo/micro1/pkg/uuid"
 
+	repositories "github.com/bav-demo/micro1/internal/repositories/domain1/interface"
 	pb "github.com/bav-demo/micro1/proto/society/go_pb"
 )
 
 var connection = initConnect.GetInstance()
 
+var societyResponse = repositories.NewSocietyRespository()
+
 func GetAllPostRPC(ctx context.Context, in *pb.RequestPosts) (*pb.ResponsePosts, error) {
 	log.Printf("Receive message body from client: %v", in)
 
-	posts := make([]*entity.Post, 0)
-	posts_ := make([]*pb.Post, 0)
-
-	if connection.Db.Find(&posts).Error != nil {
-		return nil, errors.New("Societies not found")
+	result, err := societyResponse.FindAllPost()
+	if err != nil {
+		return nil, err
 	}
 
-	for _, element := range posts {
-		post := pb.Post{
-			PostId: element.PostId,
-			Title:  element.Title,
-		}
-		posts_ = append(posts_, &post)
-	}
-
-	return &pb.ResponsePosts{Posts: posts_}, nil
+	return &pb.ResponsePosts{Posts: result}, nil
 }
 
 func GetPostById(ctx context.Context, in *pb.RequestPost) (*pb.ResponsePost, error) {
 
 	log.Println("Receive message body from client: %v", in)
 
-	var postQuery *entity.Post
-
-	if connection.Db.Where("post_id = ?", in.PostId).Find(&postQuery).Error != nil {
-		return nil, errors.New("post not found")
+	result, err := societyResponse.FindPostById(in.PostId)
+	if err != nil {
+		return nil, err
 	}
 
-	post := pb.Post{
-		PostId: postQuery.PostId,
-		Title:  postQuery.Title,
-	}
-
-	return &pb.ResponsePost{Post: &post}, nil
+	return &pb.ResponsePost{Post: result}, nil
 }
 
 func GetAllCommentsFromPost(ctx context.Context, in *pb.RequestPost) (*pb.ResponseComments, error) {
 
 	log.Printf("Receive message body from client: %v", in)
 
-	comments := make([]*entity.Comment, 0)
-	comments_ := make([]*pb.Comment, 0)
-
-	if connection.Db.Where("post_id = ?", in.PostId).Find(&comments).Error != nil {
-		return nil, errors.New("Societies not found")
+	result, err := societyResponse.FindAllCommentFromPosts(in.PostId)
+	if err != nil {
+		return nil, err
 	}
-
-	for _, element := range comments {
-		comment := pb.Comment{
-			PostId:    element.PostId,
-			Content:   element.Content,
-			CommentId: element.CommentId,
-		}
-		comments_ = append(comments_, &comment)
-	}
-
-	return &pb.ResponseComments{Comments: comments_}, nil
+	return &pb.ResponseComments{Comments: result}, nil
 }
 
 func AddPost(ctx context.Context, in *pb.RequestAddPost) (*pb.ResponseUpdate, error) {
@@ -87,10 +60,10 @@ func AddPost(ctx context.Context, in *pb.RequestAddPost) (*pb.ResponseUpdate, er
 		Title:  in.Title,
 	}
 
-	if connection.Db.Create(&post).Error != nil {
-		return nil, errors.New("something went wrong")
+	err := societyResponse.AddPost(post)
+	if err != nil {
+		return nil, err
 	}
-
 	return &pb.ResponseUpdate{Status: 200}, nil
 }
 
@@ -104,8 +77,9 @@ func AddComment(ctx context.Context, in *pb.RequestAddComment) (*pb.ResponseUpda
 		Content:   in.Content,
 	}
 
-	if connection.Db.Create(&post).Error != nil {
-		return nil, errors.New("something went wrong")
+	err := societyResponse.AddComment(post)
+	if err != nil {
+		return nil, err
 	}
 
 	return &pb.ResponseUpdate{Status: 200}, nil
@@ -115,16 +89,9 @@ func UpdateComment(ctx context.Context, in *pb.RequestUpdateComment) (*pb.Respon
 
 	log.Printf("Receive message body from client: %v", in)
 
-	var post entity.Comment
-
-	if connection.Db.Where("comment_id = ?", in.CommentId).Find(&post).Error != nil {
-		return nil, errors.New("comment not found")
-	}
-
-	post.Content = in.Content
-
-	if connection.Db.Where("comment_id = ?", in.CommentId).Save(&post).Error != nil {
-		return nil, errors.New("something went wrong")
+	err := societyResponse.UpdateComment(in.CommentId, in.Content)
+	if err != nil {
+		return nil, err
 	}
 
 	return &pb.ResponseUpdate{Status: 200}, nil
