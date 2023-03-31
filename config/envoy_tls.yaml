@@ -44,6 +44,18 @@ static_resources:
                 - name: envoy.filters.http.router
                   typed_config:
                     "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+          transport_socket:
+            name: envoy.transport_sockets.tls
+            typed_config:
+              # https://www.envoyproxy.io/docs/envoy/v1.15.0/api-v3/extensions/transport_sockets/tls/v3/tls.proto#extensions-transport-sockets-tls-v3-downstreamtlscontext
+              "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.DownstreamTlsContext
+              common_tls_context:
+                tls_certificates:
+                  - certificate_chain:
+                      # Certificate must be PEM-encoded
+                      filename: /etc/envoy/ssl/server-cert.pem
+                    private_key:
+                      filename: /etc/envoy/ssl/server-key.pem
   clusters:
     - name: greeter_service
       connect_timeout: 0.25s
@@ -60,3 +72,12 @@ static_resources:
                   socket_address:
                     address: host.docker.internal
                     port_value: 9090
+      http2_protocol_options: {} # Force HTTP/2
+      # Your grpc server communicates over TLS. You must configure the transport
+      # socket. If you care about the overhead, you should configure the grpc
+      # server to listen without TLS. If you need to listen to grpc-web and grpc
+      # over HTTP/2 both you can also proxy your TCP traffic with the envoy.
+      transport_socket:
+        name: envoy.transport_sockets.tls
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.UpstreamTlsContext

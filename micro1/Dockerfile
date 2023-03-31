@@ -8,21 +8,24 @@ RUN apt-get update && apt-get install -y zip && \
 
 ENV PATH=$PATH:$GOPATH/bin:/opt/protoc/bin
 
-COPY config/config.go /app/micro1/config/config.go
-COPY config/config.yml /app/config.yml
-COPY internal /app/micro1
-COPY pkg /app/micro1
-COPY proto /app/micro1
-COPY server /app/micro1
+COPY config /app/micro1/config
+COPY config/config_docker.yml /app/config.yml
+COPY internal /app/micro1/internal
+COPY pkg /app/micro1/pkg
+COPY proto /app/micro1/proto
+COPY server /app/micro1/server
 
 WORKDIR /app
 
 RUN go mod init github.com/bav-demo
-RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.54
-RUN go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.3
+RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+RUN go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 RUN go mod tidy
 
 RUN cd /app && \
-    protoc proto/*.proto --go_out=:. --go-grpc_out=:.
+    protoc micro1/proto/authenticate/authentication.proto --go_out=:. --go-grpc_out=:.
 
-ENTRYPOINT cd /app/server && go run main.go
+RUN cd /app && \
+    protoc micro1/proto/society/society.proto --go_out=:. --go-grpc_out=:.
+
+ENTRYPOINT cd /app && go run micro1/server/main.go
