@@ -11,6 +11,10 @@ db:
             password: "123"
             database: "demo-bamboo"
             nameconn: connPostgres
+redis: 
+    addr:  "redis:6379"
+    password: ""
+    db:    0
 
 contacts:
     name: 'Javier Lecca'

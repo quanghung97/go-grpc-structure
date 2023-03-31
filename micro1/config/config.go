@@ -16,6 +16,11 @@ type Config struct {
 			Database string `default:"demo-bamboo"`
 		}
 	}
+	Redis struct {
+		Addr     string `default:"localhost:6379"`
+		Password string `default:""`
+		DB       int32  `default:"0"`
+	}
 	Contacts struct {
 		Name  string `default:"javier Lecca"`
 		Email string `default:"leccajavier@gmail.com"`

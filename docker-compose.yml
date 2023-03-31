@@ -8,9 +8,6 @@ services:
       - db
       - redis
       - envoy
-    networks:
-      - internal
-    stdin_open: true
   # client:
   #   build: demo/.
   #   ports:
@@ -26,24 +23,16 @@ services:
       - ./db-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-    networks:
-      - internal
+
   redis:
     image: redis
     ports:
       - "6379:6379"
     volumes:
       - ./redis-data:/data
-    networks:
-      - internal
+
   envoy:
     build: config/.
     ports:
       - "9901:9901"
       - "8080:8080"
-    networks:
-      - internal
-
-networks:
-  internal:
-    driver: bridge
