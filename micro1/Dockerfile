@@ -14,6 +14,7 @@ COPY internal /app/micro1/internal
 COPY pkg /app/micro1/pkg
 COPY proto /app/micro1/proto
 COPY server /app/micro1/server
+COPY .env /app/micro1/.env
 
 WORKDIR /app
 

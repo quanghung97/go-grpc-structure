@@ -25,8 +25,8 @@ func (g *Gorm) NewDb() []*gorm.DB {
 
 	var err error
 
-	if len(c.DB.Postgres) > 0 {
-		for _, v := range c.DB.Postgres {
+	if len(c.DB) > 0 {
+		for _, v := range c.DB {
 
 			dsn := "host=" + v.Host + " user=" + v.UserName + " password=" + v.Password + " dbname=" + v.Database + " port=" + v.Port + " sslmode=disable"
 
