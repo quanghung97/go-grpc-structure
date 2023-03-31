@@ -1,11 +1,11 @@
 appname: sample
-port: 9090
+port: 8000
 
 db:
     use: postgres
     postgres:
         -   enabled: true
-            host: "0.0.0.0"
+            host: "localhost"
             port: 5432
             username: "postgres"
             password: "123"
