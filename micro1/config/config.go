@@ -8,17 +8,24 @@ import (
 )
 
 type PostGres struct {
-	Enabled  bool   `env:"ENABLED"`
-	Host     string `env:"HOST"`
-	Port     string `env:"PORT"`
-	UserName string `env:"USER_NAME"`
-	Password string `env:"PASS_WORD"`
-	Database string `env:"DATABASE"`
+	Enabled  bool
+	Host     string
+	Port     string
+	UserName string
+	Password string
+	Database string
+}
+
+type Redis struct {
+	Addr     string `default:"localhost:6379"`
+	Password string `default:""`
+	DB       int32  `default:"0"`
 }
 type Config struct {
-	AppName string     `env:"APP_NAME"`
-	Port    string     `env:"PORT"`
-	DB      []PostGres `env:"DB"`
+	AppName string
+	Port    string
+	DB      []PostGres
+	Redis   Redis
 }
 
 func (c *Config) NewConfig() (*Config, error) {
@@ -38,6 +45,9 @@ func (c *Config) NewConfig() (*Config, error) {
 				Password: os.Getenv("PASS_WORD_POSTGRES"),
 				Database: os.Getenv("DATA_BASE"),
 			},
+		},
+		Redis: Redis{
+			Addr: os.Getenv("Addr"),
 		},
 	}, nil
 }

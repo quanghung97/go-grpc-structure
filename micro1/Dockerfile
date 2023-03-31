@@ -1,10 +1,6 @@
 # GRPC-demo
 FROM golang:latest
 
-# Install grpc
-RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28
-RUN go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2
-
 # Install protoc and zip system library
 RUN apt-get update && apt-get install -y zip && \
     mkdir /opt/protoc && cd /opt/protoc && wget https://github.com/protocolbuffers/protobuf/releases/download/v3.7.0/protoc-3.7.0-linux-x86_64.zip && \
@@ -12,20 +8,25 @@ RUN apt-get update && apt-get install -y zip && \
 
 ENV PATH=$PATH:$GOPATH/bin:/opt/protoc/bin
 
-WORKDIR /the/workdir/path
+COPY config /app/micro1/config
+COPY config/config_docker.yml /app/config.yml
+COPY internal /app/micro1/internal
+COPY pkg /app/micro1/pkg
+COPY proto /app/micro1/proto
+COPY server /app/micro1/server
+COPY .env /app/micro1/.env
 
-COPY go.mod /go/src
-COPY go.sum /go/src
+WORKDIR /app
 
-# Copy the grpc proto file and generate the go module
-RUN mkdir -p /go/src/pb
-COPY pb/echo.proto /go/src/pb
+RUN go mod init github.com/bav-demo
+RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+RUN go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+RUN go mod tidy
 
-RUN cd /go/src && \
-    protoc pb/echo.proto --go_out=:. --go-grpc_out=:.
+RUN cd /app && \
+    protoc micro1/proto/authenticate/authentication.proto --go_out=:. --go-grpc_out=:.
 
-# Copy the project to be executed
-RUN mkdir -p /go/src/grpc-server 
-COPY server/main.go /go/src/grpc-server
+RUN cd /app && \
+    protoc micro1/proto/society/society.proto --go_out=:. --go-grpc_out=:.
 
-ENTRYPOINT cd /go/src/grpc-server && go run main.go
+ENTRYPOINT cd /app && go run micro1/server/main.go

@@ -12,7 +12,7 @@ tidy:
 
 .PHONY: proto
 proto:
-	protoc pb/echo.proto --go_out=:. --go-grpc_out=:.
+	protoc micro1/proto/authenticate/authenticate.proto --go_out=:. --go-grpc_out=:.
 	
 # .PHONY: build
 # build:
