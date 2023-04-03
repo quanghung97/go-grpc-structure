@@ -9,12 +9,12 @@ RUN apt-get update && apt-get install -y zip && \
 ENV PATH=$PATH:$GOPATH/bin:/opt/protoc/bin
 
 COPY config /app/micro1/config
-COPY config/config_docker.yml /app/config.yml
+# COPY config/config_docker.yml /app/config.yml
 COPY internal /app/micro1/internal
 COPY pkg /app/micro1/pkg
 COPY proto /app/micro1/proto
 COPY server /app/micro1/server
-COPY .env /app/micro1/.env
+COPY .env /app/.env
 
 WORKDIR /app
 

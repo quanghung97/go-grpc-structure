@@ -18,6 +18,6 @@ func (r *Redis) Connect() {
 	r.Rdb = redis.NewClient(&redis.Options{
 		Addr:     c.Redis.Addr,
 		Password: c.Redis.Password, // no password set
-		DB:       int(c.Redis.DB),  // use default DB
+		DB:       0,                // use default DB
 	})
 }

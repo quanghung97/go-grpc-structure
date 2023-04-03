@@ -3,6 +3,7 @@ package config
 import (
 	"log"
 	"os"
+	"strconv"
 
 	"github.com/joho/godotenv"
 )
@@ -19,7 +20,7 @@ type PostGres struct {
 type Redis struct {
 	Addr     string `default:"localhost:6379"`
 	Password string `default:""`
-	DB       int32  `default:"0"`
+	DB       int64  `default:"0"`
 }
 type Config struct {
 	AppName string
@@ -34,6 +35,8 @@ func (c *Config) NewConfig() (*Config, error) {
 		log.Fatalf("Some error occured. Err: %s", err)
 	}
 
+	db_redis, _ := strconv.ParseInt(os.Getenv("DB_REDIS"), 10, 64)
+
 	return &Config{
 		AppName: os.Getenv("APP_NAME"),
 		Port:    os.Getenv("PORT"),
@@ -47,7 +50,9 @@ func (c *Config) NewConfig() (*Config, error) {
 			},
 		},
 		Redis: Redis{
-			Addr: os.Getenv("Addr"),
+			Addr:     os.Getenv("ADDRESS_REDIS"),
+			Password: os.Getenv("PASSWORD_REDIS"),
+			DB:       db_redis,
 		},
 	}, nil
 }

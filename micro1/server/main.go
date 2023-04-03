@@ -16,7 +16,7 @@ func main() {
 	con, _ := config.NewConfig()
 
 	// khởi tạo listen với port
-	fmt.Printf("Go gRPC server in port %v!", con.Port)
+	log.Println("Go gRPC server in port !", con.Port)
 
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%s", con.Port))
 	if err != nil {
