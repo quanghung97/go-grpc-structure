@@ -1,7 +1,7 @@
 package gorm
 
 import (
-	"github.com/bav-demo/micro1/config"
+	"github.com/bav-demo/config"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 

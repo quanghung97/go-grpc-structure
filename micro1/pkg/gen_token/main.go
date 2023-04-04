@@ -5,8 +5,8 @@ import (
 	"errors"
 	"time"
 
-	"github.com/bav-demo/micro1/internal/models/authenticate"
-	initConnect "github.com/bav-demo/micro1/server/init"
+	"github.com/bav-demo/internal/models/authenticate"
+	initConnect "github.com/bav-demo/server/init"
 	"github.com/google/uuid"
 )
 

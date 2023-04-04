@@ -1,8 +1,8 @@
 package repositories
 
 import (
-	entity "github.com/bav-demo/micro1/internal/models/society"
-	pb "github.com/bav-demo/micro1/proto/society/go_pb"
+	entity "github.com/bav-demo/internal/models/society"
+	pb "github.com/bav-demo/proto/society/go_pb"
 )
 
 type ISocietyRespository interface {

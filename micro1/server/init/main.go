@@ -1,10 +1,10 @@
 package initConnect
 
 import (
-	"github.com/bav-demo/micro1/internal/models/authenticate"
-	"github.com/bav-demo/micro1/internal/models/society"
-	g_ "github.com/bav-demo/micro1/pkg/gorm"
-	"github.com/bav-demo/micro1/pkg/redis"
+	"github.com/bav-demo/internal/models/authenticate"
+	"github.com/bav-demo/internal/models/society"
+	g_ "github.com/bav-demo/pkg/gorm"
+	"github.com/bav-demo/pkg/redis"
 	"gorm.io/gorm"
 )
 

@@ -5,9 +5,9 @@ import (
 	"log"
 	"net"
 
-	con_ "github.com/bav-demo/micro1/config"
-	route "github.com/bav-demo/micro1/internal/routes"
-	initConnect "github.com/bav-demo/micro1/server/init"
+	con_ "github.com/bav-demo/config"
+	route "github.com/bav-demo/internal/routes"
+	initConnect "github.com/bav-demo/server/init"
 )
 
 func main() {
@@ -16,7 +16,7 @@ func main() {
 	con, _ := config.NewConfig()
 
 	// khởi tạo listen với port
-	log.Println("Go gRPC server in port !", con.Port)
+	log.Println("Go gRPC server in port!", con.Port)
 
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%s", con.Port))
 	if err != nil {

@@ -2,35 +2,39 @@ package society
 
 import (
 	"context"
-	"log"
+	"fmt"
 
-	entity "github.com/bav-demo/micro1/internal/models/society"
-	initConnect "github.com/bav-demo/micro1/server/init"
+	entity "github.com/bav-demo/internal/models/society"
+	initConnect "github.com/bav-demo/server/init"
 
-	util "github.com/bav-demo/micro1/pkg/uuid"
+	util "github.com/bav-demo/pkg/uuid"
 
-	repositories "github.com/bav-demo/micro1/internal/repositories/domain1/interface"
-	pb "github.com/bav-demo/micro1/proto/society/go_pb"
+	repositories "github.com/bav-demo/internal/repositories/domain1/interface"
+	pb "github.com/bav-demo/proto/society/go_pb"
 )
 
 var connection = initConnect.GetInstance()
 
 var societyResponse = repositories.NewSocietyRespository()
 
+/**
+ * GetAllPostRPC
+ * ctx
+ * in
+ */
 func GetAllPostRPC(ctx context.Context, in *pb.RequestPosts) (*pb.ResponsePosts, error) {
-	log.Printf("Receive message body from client: %v", in)
+	fmt.Printf("Receive message body from client: %v", in)
 
 	result, err := societyResponse.FindAllPost()
 	if err != nil {
 		return nil, err
 	}
-
 	return &pb.ResponsePosts{Posts: result}, nil
 }
 
 func GetPostById(ctx context.Context, in *pb.RequestPost) (*pb.ResponsePost, error) {
 
-	log.Println("Receive message body from client: %v", in)
+	fmt.Println("Receive message body from client: %v", in)
 
 	result, err := societyResponse.FindPostById(in.PostId)
 	if err != nil {
@@ -42,7 +46,7 @@ func GetPostById(ctx context.Context, in *pb.RequestPost) (*pb.ResponsePost, err
 
 func GetAllCommentsFromPost(ctx context.Context, in *pb.RequestPost) (*pb.ResponseComments, error) {
 
-	log.Printf("Receive message body from client: %v", in)
+	fmt.Printf("Receive message body from client: %v", in)
 
 	result, err := societyResponse.FindAllCommentFromPosts(in.PostId)
 	if err != nil {
@@ -53,7 +57,7 @@ func GetAllCommentsFromPost(ctx context.Context, in *pb.RequestPost) (*pb.Respon
 
 func AddPost(ctx context.Context, in *pb.RequestAddPost) (*pb.ResponseUpdate, error) {
 
-	log.Printf("Receive message body from client: %v", in)
+	fmt.Printf("Receive message body from client: %v", in)
 
 	var post entity.Post = entity.Post{
 		PostId: util.GenUuid(),
@@ -69,7 +73,7 @@ func AddPost(ctx context.Context, in *pb.RequestAddPost) (*pb.ResponseUpdate, er
 
 func AddComment(ctx context.Context, in *pb.RequestAddComment) (*pb.ResponseUpdate, error) {
 
-	log.Printf("Receive message body from client: %v", in)
+	fmt.Printf("Receive message body from client: %v", in)
 
 	var post entity.Comment = entity.Comment{
 		CommentId: util.GenUuid(),
@@ -87,7 +91,7 @@ func AddComment(ctx context.Context, in *pb.RequestAddComment) (*pb.ResponseUpda
 
 func UpdateComment(ctx context.Context, in *pb.RequestUpdateComment) (*pb.ResponseUpdate, error) {
 
-	log.Printf("Receive message body from client: %v", in)
+	fmt.Printf("Receive message body from client: %v", in)
 
 	err := societyResponse.UpdateComment(in.CommentId, in.Content)
 	if err != nil {

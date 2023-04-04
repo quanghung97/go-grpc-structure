@@ -1,19 +1,19 @@
 package routing
 
 import (
-	"github.com/grpc-ecosystem/go-grpc-middleware"
+	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
 
 	"context"
-	// "github.com/bav-demo/micro1/internal/controllers/society"
+	// "github.com/bav-demo/internal/controllers/society"
 
 	"google.golang.org/grpc"
 
-	pb "github.com/bav-demo/micro1/proto/society/go_pb"
+	pb "github.com/bav-demo/proto/society/go_pb"
 
-	pbAuthen "github.com/bav-demo/micro1/proto/authenticate/go_pb"
+	pbAuthen "github.com/bav-demo/proto/authenticate/go_pb"
 
-	SocietyController "github.com/bav-demo/micro1/internal/controllers/society"
-	"github.com/bav-demo/micro1/internal/middlewares"
+	SocietyController "github.com/bav-demo/internal/controllers/society"
+	"github.com/bav-demo/internal/middlewares"
 )
 
 type Route struct {
@@ -23,7 +23,7 @@ type Route struct {
 
 func (r *Route) NewRoute() *grpc.Server {
 
-	
+	// init server with Unary gRPC middleware
 	grpcServer := grpc.NewServer(
 		grpc_middleware.WithUnaryServerChain(
 			middlewares.AuthInterceptor,

@@ -4,6 +4,9 @@ services:
     build: micro1/.
     ports:
       - "9090:9090"
+    volumes:
+      - ./micro1:/app
+    # restart: always
     depends_on:
       - db
       - redis

@@ -1,5 +1,6 @@
 demo/node_modules
 .env
+micro1/tmp
 micro1/.env
 db-data
 redis-data

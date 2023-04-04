@@ -1,7 +1,7 @@
 package redis
 
 import (
-	"github.com/bav-demo/micro1/config"
+	"github.com/bav-demo/config"
 
 	"github.com/redis/go-redis/v9"
 )
