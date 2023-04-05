@@ -63,8 +63,9 @@ cp .env.local.example => micro1/.env
 ```
 ### run docker (only db, redis) and run micro1 without docker and hot reload code (development)
 ```
-docker-compose up -d --build db redis
+docker-compose up -d --build db redis 
 cd /micro1
+cp .air.example.toml .air.toml
 go install github.com/cosmtrek/air@latest
 air -c .air.toml
 ```
