@@ -1,5 +1,6 @@
 demo/node_modules
 .env
+config.yml
 micro1/.air.toml
 micro1/tmp
 micro1/.env

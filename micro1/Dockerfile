@@ -14,7 +14,7 @@ COPY proto /app/proto
 COPY server /app/server
 COPY go.mod /app/go.mod
 COPY go.sum /app/go.sum
-COPY .env /app/.env
+COPY config.docker.yml /app/config.yml
 
 WORKDIR /app
 

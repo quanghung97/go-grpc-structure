@@ -56,10 +56,10 @@ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.3
 go mod tidy
 ```
 
-### config .env.local.example
+### config.yml
 ```
 // if don't use docker run micro1
-cp .env.local.example => micro1/.env
+cp config.example.yml => micro1/config.yml
 ```
 ### run docker (only db, redis) and run micro1 without docker and hot reload code (development)
 ```
